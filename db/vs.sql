@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 本地
+Source Server         : 本机
 Source Server Version : 50505
 Source Host           : localhost:3306
 Source Database       : vs
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-09-19 23:31:03
+Date: 2017-09-20 17:34:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,11 +20,40 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `vs_action`;
 CREATE TABLE `vs_action` (
-  `id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='行为';
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(80) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '行为标题',
+  `name` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '唯一标识，小写',
+  `status` tinyint(1) DEFAULT NULL COMMENT '状态',
+  `update_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `type` tinyint(1) DEFAULT NULL COMMENT '行为类型 0:系统1:用户',
+  `remark` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '行为描述',
+  `app` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '行为所属类',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统行为表';
 
 -- ----------------------------
 -- Records of vs_action
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `vs_action_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `vs_action_log`;
+CREATE TABLE `vs_action_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `action_id` int(11) DEFAULT NULL COMMENT '行为ID',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户ID',
+  `user_ip` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户IP',
+  `app` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模块名称',
+  `remark` text COLLATE utf8_unicode_ci COMMENT '日志内容',
+  `status` tinyint(1) DEFAULT NULL COMMENT '状态',
+  `create_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `action_type` tinyint(1) DEFAULT NULL COMMENT '行为；类型',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of vs_action_log
 -- ----------------------------
 
 -- ----------------------------
@@ -32,17 +61,17 @@ CREATE TABLE `vs_action` (
 -- ----------------------------
 DROP TABLE IF EXISTS `vs_config`;
 CREATE TABLE `vs_config` (
-  `id` int(11) DEFAULT NULL,
-  `title` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `name` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `type` tinyint(1) DEFAULT NULL,
-  `remark` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `extra` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `sort` smallint(3) DEFAULT NULL,
-  `value` text COLLATE utf8_unicode_ci,
-  `status` tinyint(1) DEFAULT NULL,
-  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '配置标题',
+  `name` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '配置标识',
+  `type` tinyint(1) DEFAULT NULL COMMENT '配置类型',
+  `remark` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '配置说明',
+  `sort` smallint(3) DEFAULT '0' COMMENT '排序',
+  `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '配置值',
+  `status` tinyint(1) DEFAULT NULL COMMENT '状态',
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
@@ -128,18 +157,6 @@ CREATE TABLE `vs_hospital_wechat` (
 
 -- ----------------------------
 -- Records of vs_hospital_wechat
--- ----------------------------
-
--- ----------------------------
--- Table structure for `vs_log`
--- ----------------------------
-DROP TABLE IF EXISTS `vs_log`;
-CREATE TABLE `vs_log` (
-  `id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- ----------------------------
--- Records of vs_log
 -- ----------------------------
 
 -- ----------------------------
