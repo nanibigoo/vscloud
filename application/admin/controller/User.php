@@ -2,11 +2,18 @@
 
 namespace app\admin\controller;
 
-use think\Controller;
-use think\Request;
+use app\admin\AdminBasic;
+use think\facade\Session;
+use app\admin\repository\User as UserRepository;
+use com\Auth;
 
-class User extends Controller
+class User extends AdminBasic
 {
+
+    public function _initialize()
+    {
+        
+    }
     /**
      * 显示资源列表
      *
@@ -14,7 +21,11 @@ class User extends Controller
      */
     public function index()
     {
-        //
+
+        $users = $this->user->select();
+
+        $this->assign('users',$users);
+        return $this->fetch();
     }
 
     /**
@@ -24,7 +35,7 @@ class User extends Controller
      */
     public function create()
     {
-        //
+        return $this->fetch();
     }
 
     /**
@@ -35,7 +46,15 @@ class User extends Controller
      */
     public function save(Request $request)
     {
-        //
+        $user = $request->param();
+        $result = $this->validate($user,'User');
+        if($result !== true){
+            $this->error($result);
+        }
+        $user = $this->user->create($user);
+        if($user){
+            $this->success('新增用户成功','/king/user');
+        }
     }
 
     /**
@@ -46,7 +65,7 @@ class User extends Controller
      */
     public function read($id)
     {
-        //
+        dump('this is read');
     }
 
     /**
@@ -57,7 +76,9 @@ class User extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = $this->user->byId($id);
+        $this->assign('user',$user);
+        return $this->fetch();
     }
 
     /**
@@ -69,7 +90,12 @@ class User extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nickname = $request->param('nickname');
+        $uid = $this->user->setFieldById($id,'nickname',$nickname);
+        if($id){
+            $user = $this->user->byId($id);
+            return $user;
+        }
     }
 
     /**
@@ -80,6 +106,12 @@ class User extends Controller
      */
     public function delete($id)
     {
-        //
+        return $this->user->deleteById($id);
+    }
+
+    
+    // 改变状态
+    public function changeStatus($id){
+        return $this->user->toggleStatus($id);
     }
 }

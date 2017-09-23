@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新增用户</title>
+</head>
+<body>
+	<form action="/king/user" method="POST">
+		<div>
+			username: <input type="text" name="username">
+		</div>
+		<div>
+			password: <input type="password" name="password">
+		</div>
+		<div>
+			repassword: <input type="password" name="repassword">
+		</div>
+		<div>
+			nickname: <input type="text" name="nickname">
+		</div>
+		<div>
+			{:token()}
+			<input type="submit">
+			}
+		</div>
+	</form>
+</body>
+</html>

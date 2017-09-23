@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>系统用户</title>
+	<script src="__STATIC__/jquery/jquery.min.js"></script>
+</head>
+<body>
+	{foreach $users as $key=>$vo}
+		<div>
+			<a href="/king/user/{$vo.id}/edit">{$vo.username}-->>{$vo.nickname}</a><a  class="delete" vs_data="{$vo.id}">删除</a><a class="changeStatus">{$vo.status}</a>
+		</div>
+	{/foreach}
+	<script>
+		$('.delete').click(function(){
+			var _id = $(this).attr('vs_data');
+			var _url = "/king/user/"+_id;
+			$.ajax({
+				type: "DELETE",
+				url: _url,
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					window.location.reload();
+				}
+			});
+		})
+		$('.changeStatus').click(function(){
+			var _id = $(this).siblings('.delete').attr('vs_data');
+			var _url = "/king/user/status/"+_id;
+			$.ajax({
+				type: "POST",
+				url: _url,
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					window.location.reload();
+				}
+			});
+		})
+	</script>
+</body>
+</html>

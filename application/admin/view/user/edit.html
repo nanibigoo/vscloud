@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>编辑</title>
+	<script src="__STATIC__/jquery/jquery.min.js"></script>
+</head>
+<body>
+	<form action="" method="POST">
+		<div class="name">{$user.username}</div>
+		<div class="nickname">
+		<input type="text" name="nickname" value="{$user->nickname}"></div>
+		<div><input type="button" id="submit" value="提交"></div>
+	</form>
+	<script>
+		$('#submit').click(function(){
+			var _data = {
+				nickname:$('input[name=nickname]').val()
+			};
+			var _url = "/king/user/{$user.id}";
+			$.ajax({
+				type: "PUT",
+				url: _url,
+				data: _data,
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					window.location.reload();
+				}
+			});
+
+		})
+	</script>
+</body>
+</html>

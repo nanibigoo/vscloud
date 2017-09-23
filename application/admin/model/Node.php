@@ -6,5 +6,8 @@ use think\Model;
 
 class Node extends Model
 {
-    //
+    public function users()
+    {
+    	return $this->belongsToMany('user');
+    }
 }

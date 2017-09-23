@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登录</title>
+	<script src="__STATIC__/jquery/jquery.min.js"></script>
+</head>
+<body>
+	<form action="" method="POST">
+		<div>
+			username:<input type="text" name="username">
+		</div>
+		<div>
+			password:<input type="password" name="password">
+		</div>
+		<div>
+			<input type="button" id="login" value="登录">
+		</div>
+	</form>
+	
+	<script>
+		$('#login').click(function(){
+			var _data = {
+				username:$('input[name=username]').val(),
+				password:$('input[name=password]').val()
+			};
+			var _url = '/king/login';
+			$.post(_url,_data,function(Response){
+				if(Response.code!=404){
+					window.location.href='/king/index';
+				}
+				
+			});
+		})
+	</script>
+</body>
+</html>

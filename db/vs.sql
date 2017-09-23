@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 本机
+Source Server         : 本地
 Source Server Version : 50505
 Source Host           : localhost:3306
 Source Database       : vs
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-09-20 17:34:18
+Date: 2017-09-24 00:23:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,6 +87,7 @@ CREATE TABLE `vs_hospital` (
   `title` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '医院名称',
   `name` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '医院唯一标识，前台登录地址标识',
   `status` tinyint(1) DEFAULT NULL COMMENT '状态',
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `标识` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='医院用户';
@@ -160,6 +161,18 @@ CREATE TABLE `vs_hospital_wechat` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `vs_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `vs_log`;
+CREATE TABLE `vs_log` (
+  `id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of vs_log
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `vs_node`
 -- ----------------------------
 DROP TABLE IF EXISTS `vs_node`;
@@ -173,11 +186,14 @@ CREATE TABLE `vs_node` (
   `sort` int(11) DEFAULT '0' COMMENT '排序',
   `level` tinyint(1) DEFAULT NULL COMMENT '层级',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='节点';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='节点';
 
 -- ----------------------------
 -- Records of vs_node
 -- ----------------------------
+INSERT INTO `vs_node` VALUES ('1', '1', 'admin/user/add', '1', '1', '1', '1', '1');
+INSERT INTO `vs_node` VALUES ('2', '2', 'admin/login/logout', '2', '1', '1', '0', '1');
+INSERT INTO `vs_node` VALUES ('3', '3', 'admin/user/index', '1', '1', '1', '0', '1');
 
 -- ----------------------------
 -- Table structure for `vs_user`
@@ -185,27 +201,36 @@ CREATE TABLE `vs_node` (
 DROP TABLE IF EXISTS `vs_user`;
 CREATE TABLE `vs_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户名',
+  `username` varchar(15) COLLATE utf8_unicode_ci NOT NULL COMMENT '用户名',
   `nickname` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户昵称',
-  `password` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '密码：6-15位字符串',
-  `status` tinyint(1) DEFAULT '1' COMMENT '用户状态：1：正常，0：禁用',
-  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `password` varchar(60) COLLATE utf8_unicode_ci NOT NULL COMMENT '密码',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '用户状态：1：正常，0：禁用',
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `is_pwd_change` tinyint(1) NOT NULL DEFAULT '0' COMMENT '用于验证初始密码是否被修改',
+  `last_login_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后登录时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of vs_user
 -- ----------------------------
+INSERT INTO `vs_user` VALUES ('1', 'admin', '超级管理员', '356a192b7913b04c54574d18c28d46e6395428ab', '1', '2017-09-24 00:06:59', '0', '2017-09-24 00:06:59');
+INSERT INTO `vs_user` VALUES ('2', 'alex', '蛋蛋嫁到', '356a192b7913b04c54574d18c28d46e6395428ab', '1', '2017-09-24 00:07:52', '0', '2017-09-24 00:07:52');
+INSERT INTO `vs_user` VALUES ('3', 'laowang', '老王', '0f2c595baa1fac2457a5970eb17f735ffedd0c40', '1', '2017-09-23 17:45:03', '0', '2017-09-23 17:45:03');
 
 -- ----------------------------
 -- Table structure for `vs_user_node`
 -- ----------------------------
 DROP TABLE IF EXISTS `vs_user_node`;
 CREATE TABLE `vs_user_node` (
-  `user_id` int(11) DEFAULT NULL,
-  `node_id` int(11) DEFAULT NULL
+  `user_id` int(11) NOT NULL,
+  `node_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`node_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of vs_user_node
 -- ----------------------------
+INSERT INTO `vs_user_node` VALUES ('1', '1');
+INSERT INTO `vs_user_node` VALUES ('1', '2');
+INSERT INTO `vs_user_node` VALUES ('2', '3');
