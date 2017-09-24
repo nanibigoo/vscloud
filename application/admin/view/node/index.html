@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>规则列表</title>
+	<script src="__STATIC__/jquery/jquery.min.js"></script>
+</head>
+<body>
+	<a href="/king/node/create">新增</a>
+	<a href="/king/node/deletes/6,7">批量删除</a>
+	{foreach $nodes as $key=>$node}
+		<div vs_data_id="{$node.id}">{$node.name} <a href="/king/node/{$node.id}/edit" class="edit">编辑</a><a href="javascript:;" class="delete">删除</a></div>
+	{/foreach}
+
+	<script>
+
+		$('.delete').click(function(){
+			var _id = $(this).parent().attr('vs_data_id');
+			var _url = "/king/node/"+_id;
+			$.ajax({
+				type: "DELETE",
+				url: _url,
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					// window.location.reload();
+				}
+			});
+
+		})
+
+		$('.edit').click(function(){
+			var _id = $(this).parent().attr('vs_data_id');
+			var _url = "/king/node/"+_id+"/edit";
+			$.ajax({
+				type: "GET",
+				url: _url,
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					// window.location.reload();
+				}
+			});
+
+		})
+	</script>
+</body>
+</html>

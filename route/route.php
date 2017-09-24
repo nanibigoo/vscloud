@@ -35,4 +35,6 @@ Route::rule('king/nickname','admin/login/changePwd')
 Route::resource('king/user','admin/user');
 Route::post('king/user/status/:id','admin/user/changeStatus');
 
-Route::get('auth','com/auth/demo');
+/* 规则模块路由 */
+Route::resource('king/node','admin/node');
+Route::get('king/node/deletes/:ids','admin/node/deletes');

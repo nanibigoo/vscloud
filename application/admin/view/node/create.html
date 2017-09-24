@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新增规则</title>
+</head>
+<body>
+	<form action="/king/node" method="POST">
+		<div>模块：
+			<input type="radio" name="app" value="1" checked="checked">后台
+			<input type="radio" name="app" value="2">前台
+			<input type="radio" name="app" value="3">工具
+		</div>
+		<div>菜单：
+			<input type="radio" name="is_menu" value="1" checked="checked">是
+			<input type="radio" name="is_menu" value="0">否
+		</div>
+		<div>父级：
+			<select name="pid" id="">
+				<option value="0">无</option>
+				{foreach $nodes as $node}
+					<option value="{$node.id}">{$node.title}</option>
+					{foreach $node.child as $subnode}
+						<option value="{$subnode.id}">{$subnode.title}</option>
+						{foreach $subnode.subchild as $subnodeChild}
+							<option value="{$subnodeChild.id}">{$subnodeChild.title}</option>
+						{/foreach}
+					{/foreach}
+				{/foreach} 
+			</select>
+		</div>
+		<div>规则URL：<input type="text" name="name"></div>
+		<div>标题：<input type="text" name="title"></div>
+		<div>图标：<input type="text" name="icon"></div>
+		<div>排序：<input type="text" name="sort"></div>
+		<div>备注：<input type="text" name="remark"></div>
+		<div><input type="submit"></div>
+	</form>
+</body>
+</html>

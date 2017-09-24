@@ -3,10 +3,10 @@
 namespace app\admin\controller;
 
 use app\admin\AdminBasic;
-use think\facade\Session;
-use app\admin\repository\User as UserRepository;
-use com\Auth;
 
+/**
+ * 系统用户
+ */
 class User extends AdminBasic
 {
 

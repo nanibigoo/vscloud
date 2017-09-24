@@ -2,11 +2,19 @@
 
 namespace app\admin\controller;
 
-use think\Controller;
-use think\Request;
+use app\admin\AdminBasic;
+use app\admin\repository\Node as NodeRepository;
+use com\Tree;
 
-class Node extends Controller
+class Node extends AdminBasic
 {
+    protected $node;
+    protected $model;
+    public function _initialize()
+    {
+        $this->node  = new NodeRepository();
+        $this->model = model('node');
+    }
     /**
      * 显示资源列表
      *
@@ -14,7 +22,9 @@ class Node extends Controller
      */
     public function index()
     {
-        //
+        $nodes = $this->node->select(true,'sort desc,id desc');
+        $this->assign('nodes',$nodes);
+        return $this->fetch();
     }
 
     /**
@@ -24,7 +34,11 @@ class Node extends Controller
      */
     public function create()
     {
-        //
+        $nodes = $this->node->getTree();
+
+        $this->assign('nodes',$nodes);
+        // dump($nodes);
+        return $this->fetch();
     }
 
     /**
@@ -33,9 +47,11 @@ class Node extends Controller
      * @param  \think\Request  $request
      * @return \think\Response
      */
-    public function save(Request $request)
+    public function save()
     {
-        //
+        $data = $this->request->param();
+        unset($data['king']);
+        return $this->node->create($data);
     }
 
     /**
@@ -57,7 +73,11 @@ class Node extends Controller
      */
     public function edit($id)
     {
-        //
+        $node = $this->node->byId($id);
+        $nodes = $this->node->getTree();
+        $this->assign('nodes',$nodes);
+        $this->assign('node',$node);
+        return $this->fetch();
     }
 
     /**
@@ -67,9 +87,11 @@ class Node extends Controller
      * @param  int  $id
      * @return \think\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        $data = $this->request->param();
+        unset($data['king']);
+        return $this->node->update($id,$data);
     }
 
     /**
@@ -80,6 +102,24 @@ class Node extends Controller
      */
     public function delete($id)
     {
-        //
+        return $this->node->deleteById($id);
+    }
+
+    /**
+     * 批量删除
+     * @return [type] [description]
+     */
+    public function deletes($ids)
+    {
+        return $this->node->deleteByIds($ids);
+    }
+
+    /**
+     * 改变状态
+     * @return [type] [description]
+     */
+    public function changeStatus($id)
+    {
+        $this->node->toggleStatus($id);
     }
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>编辑规则</title>
+	<script src="__STATIC__/jquery/jquery.min.js"></script>
+</head>
+<body>
+	<form action="/king/node" method="POST">
+		<div>模块：{$node.app}</div>
+		<div>菜单：{$node.is_menu}</div>
+		<div>父级：{$node.pid}</div>
+		<div>规则URL：<input type="text" name="name" value="{$node.name}"></div>
+		<div>标题：<input type="text" name="title" value="{$node.title}"></div>
+		<div>图标：<input type="text" name="icon" value="{$node.icon}"></div>
+		<div>排序：<input type="text" name="sort" value="{$node.sort}"></div>
+		<div>备注：<input type="text" name="remark" value="{$node.remark}"></div>
+		<div><a href="javascript:;" id="submit">提交 </a></div>
+	</form>
+	<script>
+
+		$('#submit').click(function(){
+			var _id = {$node.id};
+			var _url = "/king/node/"+_id;
+			var _data = {
+				name:$('input[name=name]').val(),
+				title:$('input[name=title]').val(),
+				icon:$('input[name=icon]').val(),
+				sort:$('input[name=sort]').val(),
+				remark:$('input[name=remark]').val()
+			};
+			$.ajax({
+				type: "PUT",
+				url: _url,
+				data: _data,
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					// window.location.reload();
+				}
+			});
+
+		})
+	</script>
+</body>
+</html>
