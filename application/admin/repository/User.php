@@ -2,6 +2,7 @@
 namespace app\admin\repository;
 
 use app\admin\model\User as UserModel;
+use think\facade\Session;
 
 /**
  * 系统用户仓库
@@ -50,7 +51,7 @@ class User
 	// 返回当前用户所有节点信息
 	public function userNode()
 	{
-		$user = $this->byId(1);
+		$user = $this->byId(Session::get('king_auth.id'));
 		return $user->nodes;
 	}
 }

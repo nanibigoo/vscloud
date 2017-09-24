@@ -38,3 +38,6 @@ Route::post('king/user/status/:id','admin/user/changeStatus');
 /* 规则模块路由 */
 Route::resource('king/node','admin/node');
 Route::get('king/node/deletes/:ids','admin/node/deletes');
+
+/* 系统用户权限 */
+Route::get('king/auth','admin/userAccess/nodeTree');
