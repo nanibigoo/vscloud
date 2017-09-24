@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-09-24 00:23:52
+Date: 2017-09-24 20:45:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -178,22 +178,27 @@ CREATE TABLE `vs_log` (
 DROP TABLE IF EXISTS `vs_node`;
 CREATE TABLE `vs_node` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '节点名称',
-  `name` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '节点标识，小写',
-  `parent_id` int(11) DEFAULT NULL COMMENT '父类id',
-  `status` tinyint(1) DEFAULT NULL COMMENT '状态（1：正常，0：禁用）',
-  `type` tinyint(1) DEFAULT NULL COMMENT '节点分类，',
-  `sort` int(11) DEFAULT '0' COMMENT '排序',
-  `level` tinyint(1) DEFAULT NULL COMMENT '层级',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT '节点名称',
+  `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL COMMENT '节点标识，小写',
+  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '父类id',
+  `is_menu` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否为菜单',
+  `icon` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '图标',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` tinyint(1) unsigned zerofill NOT NULL DEFAULT '1' COMMENT '状态（1：正常，0：禁用）',
+  `remark` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注',
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `app` tinyint(4) DEFAULT '1' COMMENT '所属模块，1：后台，2：前台，3：工具',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='节点';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='节点';
 
 -- ----------------------------
 -- Records of vs_node
 -- ----------------------------
-INSERT INTO `vs_node` VALUES ('1', '1', 'admin/user/add', '1', '1', '1', '1', '1');
-INSERT INTO `vs_node` VALUES ('2', '2', 'admin/login/logout', '2', '1', '1', '0', '1');
-INSERT INTO `vs_node` VALUES ('3', '3', 'admin/user/index', '1', '1', '1', '0', '1');
+INSERT INTO `vs_node` VALUES ('1', '新增系统用户', 'admin/user/add', '0', '1', '1', '1', '1', null, '2017-09-24 18:18:06', '2017-09-24 18:18:06', '2');
+INSERT INTO `vs_node` VALUES ('2', '退出', 'admin/login/logout', '1', '1', '1', '0', '1', null, '2017-09-24 19:13:43', '2017-09-24 19:13:43', '3');
+INSERT INTO `vs_node` VALUES ('3', '系统用户首页', 'admin/user/index', '1', '1', '1', '0', '1', null, '2017-09-24 18:18:09', '2017-09-24 18:18:09', '1');
+INSERT INTO `vs_node` VALUES ('4', '新增规则', 'admin/node/create', '3', '1', null, '0', '1', null, '2017-09-24 19:13:12', '2017-09-24 19:13:12', '1');
 
 -- ----------------------------
 -- Table structure for `vs_user`
@@ -209,12 +214,12 @@ CREATE TABLE `vs_user` (
   `is_pwd_change` tinyint(1) NOT NULL DEFAULT '0' COMMENT '用于验证初始密码是否被修改',
   `last_login_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后登录时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of vs_user
 -- ----------------------------
-INSERT INTO `vs_user` VALUES ('1', 'admin', '超级管理员', '356a192b7913b04c54574d18c28d46e6395428ab', '1', '2017-09-24 00:06:59', '0', '2017-09-24 00:06:59');
+INSERT INTO `vs_user` VALUES ('1', 'admin', '超级管理员', '356a192b7913b04c54574d18c28d46e6395428ab', '1', '2017-09-24 15:26:33', '0', '2017-09-24 15:26:33');
 INSERT INTO `vs_user` VALUES ('2', 'alex', '蛋蛋嫁到', '356a192b7913b04c54574d18c28d46e6395428ab', '1', '2017-09-24 00:07:52', '0', '2017-09-24 00:07:52');
 INSERT INTO `vs_user` VALUES ('3', 'laowang', '老王', '0f2c595baa1fac2457a5970eb17f735ffedd0c40', '1', '2017-09-23 17:45:03', '0', '2017-09-23 17:45:03');
 
