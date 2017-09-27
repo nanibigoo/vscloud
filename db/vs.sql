@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-09-24 20:45:31
+Date: 2017-09-27 22:31:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -190,7 +190,7 @@ CREATE TABLE `vs_node` (
   `update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `app` tinyint(4) DEFAULT '1' COMMENT '所属模块，1：后台，2：前台，3：工具',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='节点';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='节点';
 
 -- ----------------------------
 -- Records of vs_node
@@ -238,4 +238,5 @@ CREATE TABLE `vs_user_node` (
 -- ----------------------------
 INSERT INTO `vs_user_node` VALUES ('1', '1');
 INSERT INTO `vs_user_node` VALUES ('1', '2');
+INSERT INTO `vs_user_node` VALUES ('1', '4');
 INSERT INTO `vs_user_node` VALUES ('2', '3');
